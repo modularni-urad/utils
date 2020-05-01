@@ -8,7 +8,8 @@ export default async (migrationDir) => {
     client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: migrationDir
+      directory: migrationDir,
+      disableMigrationsListValidation: true
     },
     debug: process.env.NODE_ENV === 'debug'
   }
