@@ -17,7 +17,7 @@ export function initAuth (app) {
     })
   )
   app.use((req, res, next) => {
-    try { req.user = req.session.user.user } catch (_) {} finally { next() }
+    try { req.user = req.session.user } catch (_) {} finally { next() }
   })
 }
 
