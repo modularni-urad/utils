@@ -16,15 +16,26 @@ export function initAuth (app) {
       }
     })
   )
-  app.use((req, res, next) => {
-    try { req.user = req.session.user } catch (_) {} finally { next() }
-  })
+  return { getUID, required, isMember, requireMembership }
 }
 
-export function getUid (req) {
-  return req.user.PersonIdentifier
+function isMember (req, gid) {
+  try {
+    return req.session.user.groups.indexOf(gid) >= 0
+  } catch (_) {
+    return false
+  }
+}
+
+const requireMembership = (gid) => (req, res, next) => {
+  const amIMember = isMember(req, gid)
+  return amIMember ? next() : next(401)
+}
+
+function getUID (req) {
+  return req.session.user.id
 }
 
 export function required (req, res, next) {
-  return req.user ? next() : next(401)
+  return req.session.user ? next() : next(401)
 }
