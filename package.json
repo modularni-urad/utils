@@ -5,6 +5,7 @@
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "connect-redis": "^4.0.3",
     "cookie-parser": "^1.4.3",
     "express-session": "^1.17.0",

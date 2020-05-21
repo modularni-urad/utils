@@ -1,3 +1,5 @@
+import axios from 'axios'
+import assert from 'assert'
 const session = require('express-session')
 const redis = require('redis')
 
@@ -38,4 +40,13 @@ function getUID (req) {
 
 export function required (req, res, next) {
   return req.session.user ? next() : next(401)
+}
+
+assert.ok(process.env.DATABASE_URL, 'env.AUTH_API not defined!')
+export async function inform (UID, message) {
+  try {
+    await axios.post(process.env.AUTH_API, { UID, message })
+  } catch (err) {
+    console.error(err)
+  }
 }
