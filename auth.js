@@ -42,8 +42,8 @@ export function required (req, res, next) {
   return req.session.user ? next() : next(401)
 }
 
-assert.ok(process.env.AUTH_API, 'env.AUTH_API not defined!')
 export function inform (UID, message) {
+  assert.ok(process.env.AUTH_API, 'env.AUTH_API not defined!')
   return axios.post(`${process.env.AUTH_API}/inform`, { UID, message })
     .catch(err => console.error(err))
 }
