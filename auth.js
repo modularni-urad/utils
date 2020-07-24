@@ -7,17 +7,26 @@ const RedisStore = require('connect-redis')(session)
 const redisClient = redis.createClient()
 
 export function initAuth (app) {
-  app.use(
-    session({
-      store: new RedisStore({ client: redisClient }),
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        httpOnly: process.env.NODE_ENV === 'production'
-      }
+  if (process.env.MOCKUSER) {
+    // this is only for development purposes
+    app.use((req, res, next) => {
+      req.session = { user: JSON.parse(process.env.MOCKUSER) }
+      next()
     })
-  )
+  } else {
+    // normal express session based auth
+    app.use(
+      session({
+        store: new RedisStore({ client: redisClient }),
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          httpOnly: process.env.NODE_ENV === 'production'
+        }
+      })
+    )
+  }
   return { getUID, required, isMember, requireMembership }
 }
 
