@@ -4,7 +4,7 @@ const session = require('express-session')
 const redis = require('redis')
 
 const RedisStore = require('connect-redis')(session)
-const redisClient = redis.createClient()
+const redisClient = redis.createClient(process.env.REDIS_URL)
 
 export function initAuth (app) {
   if (process.env.MOCKUSER) {
