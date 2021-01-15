@@ -1,32 +1,23 @@
 import axios from 'axios'
 import assert from 'assert'
-const session = require('express-session')
-const redis = require('redis')
 
-const RedisStore = require('connect-redis')(session)
-const redisClient = redis.createClient(process.env.REDIS_URL)
+const SESSION_SVC = process.env.SESSION_SERVICE || 'session_svc'
+const headerRegex = /^Bearer (.*)/i
 
-export function initAuth (app) {
-  if (process.env.MOCKUSER) {
-    // this is only for development purposes
-    app.use((req, res, next) => {
-      req.session = { user: JSON.parse(process.env.MOCKUSER) }
-      next()
-    })
-  } else {
-    // normal express session based auth
-    app.use(
-      session({
-        store: new RedisStore({ client: redisClient }),
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-          httpOnly: process.env.NODE_ENV === 'production'
-        }
-      })
-    )
-  }
+export default function initAuth (app) {
+  // if present delegate JWT parsing to SESSION_SERVICE endpoint
+  app.use((req, res, next) => {
+    function validateJWT (token) {
+      axios.get(`${SESSION_SVC}/${token}`).then(r => {
+        req.session.user = r.data
+        next()
+      }).catch(next)
+    }
+    const match = (req.header('Authorization') || '').match(headerRegex)
+    return match
+      ? validateJWT(match[1])
+      : next() // continue immediately
+  })
   return { getUID, required, isMember, requireMembership }
 }
 
