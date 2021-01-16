@@ -1,21 +1,31 @@
 import axios from 'axios'
 import assert from 'assert'
 
-const SESSION_SVC = process.env.SESSION_SERVICE || 'session_svc'
+const SESSION_SVC = process.env.SESSION_SERVICE || 'session-svc'
 const headerRegex = /^Bearer (.*)/i
+const COOKIE_NAME = 'Bearer'
+
+function _getCookie (req) {
+  return req.cookies ? req.cookies[COOKIE_NAME] : req.signedCookies
+    ? req.signedCookies[COOKIE_NAME] : null
+}
+function _getAuthHeader (req) {
+  const match = (req.header('Authorization') || '').match(headerRegex)
+  return match ? match[1] : null
+}
 
 export default function initAuth (app) {
   // if present delegate JWT parsing to SESSION_SERVICE endpoint
   app.use((req, res, next) => {
     function validateJWT (token) {
-      axios.get(`${SESSION_SVC}/${token}`).then(r => {
+      axios.get(`${SESSION_SVC}/verify/${token}`).then(r => {
         req.session.user = r.data
         next()
       }).catch(next)
     }
-    const match = (req.header('Authorization') || '').match(headerRegex)
-    return match
-      ? validateJWT(match[1])
+    const token = _getAuthHeader(req) || _getCookie(req)
+    return token
+      ? validateJWT(token)
       : next() // continue immediately
   })
   return { getUID, required, isMember, requireMembership }
