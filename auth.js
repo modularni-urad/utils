@@ -31,7 +31,7 @@ export default function initAuth (app) {
   return { getUID, required, isMember, requireMembership }
 }
 
-function isMember (req, gid) {
+export function isMember (req, gid) {
   try {
     return req.session.user.groups.indexOf(gid) >= 0
   } catch (_) {
