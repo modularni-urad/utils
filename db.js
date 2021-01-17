@@ -7,16 +7,18 @@ export default async (migrationDir) => {
   const opts = {
     client: 'pg',
     connection: process.env.DATABASE_URL,
+    debug: process.env.NODE_ENV !== 'production'
+  }
+  migrationDir && Object.assign(opts, {
     migrations: {
       directory: migrationDir,
       disableMigrationsListValidation: true
-    },
-    debug: process.env.NODE_ENV === 'debug'
-  }
+    }
+  })
 
   const db = knex(opts)
 
-  await db.migrate.latest()
+  migrationDir && await db.migrate.latest()
 
   return db
 }

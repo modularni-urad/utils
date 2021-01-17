@@ -1,7 +1,7 @@
 import axios from 'axios'
 import assert from 'assert'
 
-const SESSION_SVC = process.env.SESSION_SERVICE || 'session-svc'
+const SESSION_SVC = process.env.SESSION_SERVICE || 'http://session-svc'
 const headerRegex = /^Bearer (.*)/i
 const COOKIE_NAME = 'Bearer'
 
