@@ -19,7 +19,7 @@ export default function initAuth (app) {
   app.use((req, res, next) => {
     function validateJWT (token) {
       axios.get(`${SESSION_SVC}/verify/${token}`).then(r => {
-        req.session.user = r.data
+        req.user = r.data
         next()
       }).catch(next)
     }
@@ -33,7 +33,7 @@ export default function initAuth (app) {
 
 export function isMember (req, gid) {
   try {
-    return req.session.user.groups.indexOf(gid) >= 0
+    return req.user.groups.indexOf(gid) >= 0
   } catch (_) {
     return false
   }
@@ -45,11 +45,11 @@ const requireMembership = (gid) => (req, res, next) => {
 }
 
 function getUID (req) {
-  return req.session.user.id
+  return req.user ? req.user.id : null
 }
 
 export function required (req, res, next) {
-  return req.session.user ? next() : next(401)
+  return req.user ? next() : next(401)
 }
 
 export function inform (UID, message) {
