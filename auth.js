@@ -1,5 +1,6 @@
 import axios from 'axios'
 import assert from 'assert'
+import cookieParser from 'cookie-parser'
 
 const SESSION_SVC = process.env.SESSION_SERVICE || 'http://session-svc'
 const headerRegex = /^Bearer (.*)/i
@@ -15,6 +16,7 @@ function _getAuthHeader (req) {
 }
 
 export default function initAuth (app) {
+  app.use(cookieParser())
   // if present delegate JWT parsing to SESSION_SERVICE endpoint
   app.use((req, res, next) => {
     function validateJWT (token) {
