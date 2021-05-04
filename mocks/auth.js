@@ -3,7 +3,7 @@ const express = require('express')
 module.exports = function (port, userProvider = null) {
   const app = express()
   const mockPort = process.env.SESSION_MOCK
-  userProvider = userProvider || defaultUserProvider 
+  userProvider = userProvider || defaultUserProvider
 
   app.get('*', (req, res) => {
     return res.json(userProvider(req))
@@ -15,6 +15,6 @@ module.exports = function (port, userProvider = null) {
   })
 }
 
-function defaultUserProvider (req) { 
-  return { id: 42 } 
+function defaultUserProvider (req) {
+  return { id: 42 }
 }
