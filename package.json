@@ -1,12 +1,15 @@
 {
   "name": "modularni-urad-utils",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "utils for modularni-urad",
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha -r esm -r ./test/utils/env --exit './test/main.js'",
+    "testdbg": "mocha -r esm -r ./test/utils/env --inspect-brk './test/main.js'"
+  },
   "peerDependencies": {
     "axios": "^0.19.2",
-    "cookie-parser": "^1.4.5",
     "knex": "^0.20.8",
     "pg": "^7.17.1"
   },
@@ -14,6 +17,14 @@
     "node": ">=12"
   },
   "devDependencies": {
-    "express": "^4.17.1"
+    "axios": "^0.21.1",
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "deepcopy": "^2.0.0",
+    "esm": "^3.2.25",
+    "expect": "^1.20.2",
+    "express": "^4.17.1",
+    "jsdom": "^9.8.0",
+    "mocha": "^8.2.0"
   }
 }
