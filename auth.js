@@ -33,6 +33,7 @@ export function getUID (req) {
 }
 
 export function required (req, res, next) {
+  if (req.user) return next()
   function validateJWT (token) {
     axios.post(`${SESSION_SVC}/verify`, { token }).then(r => {
       req.user = r.data
