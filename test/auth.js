@@ -21,7 +21,7 @@ module.exports = (g) => {
       // logRes.status.should.equal(200)
       g.mockUser = { id: 1, name: 'gandalf' }
       const res = await r.get('/require')
-        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue;other=val`)
+        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue`)
       res.status.should.equal(200)
       res.body.name.should.equal(g.mockUser.name)
     })
@@ -29,14 +29,14 @@ module.exports = (g) => {
     it('shall fail with user without reqired group', async () => {
       g.mockUser = { id: 1, name: 'gandalf', groups: ['users'] }
       const res = await r.get('/requireMembership')
-        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue;other=val`)
+        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue`)
       res.status.should.equal(401)
     })
 
     it('shall return logged user with reqired group', async () => {
       g.mockUser = { id: 1, name: 'gandalf', groups: ['admins'] }
       const res = await r.get('/requireMembership')
-        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue;other=val`)
+        .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue`)
       res.status.should.equal(200)
       res.body.name.should.equal(g.mockUser.name)
     })
