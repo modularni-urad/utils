@@ -1,0 +1,6 @@
+domains:
+  - api.domain2.cz
+
+cors:
+  - web1.domain2.cz
+  - web2.domain2.cz
