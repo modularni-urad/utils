@@ -11,7 +11,7 @@ module.exports = (g) => {
     11: { domains: ['pokus.cz'] }
   }
   
-  return describe('errors', () => {
+  return describe('OrgID', () => {
 
     g.setupOrgIDs(configs)
 
