@@ -22,7 +22,8 @@ describe('app', () => {
     const submodules = [
       './auth',
       './config',
-      './errors'
+      './errors',
+      './orgid_test'
     ]
     submodules.map((i) => {
       const subMod = require(i)
