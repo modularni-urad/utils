@@ -9,6 +9,9 @@ let loaded = false
 let _promises = []
 
 export default function doWatch(CONFIG_FOLDER) {
+  if (! fs.existsSync(CONFIG_FOLDER)) {
+    throw new Error(`config folder (${CONFIG_FOLDER}) not exists!`)
+  }
   // watch folder with yaml config files and emits events on changes.
   const ee = new EventEmitter()
 
