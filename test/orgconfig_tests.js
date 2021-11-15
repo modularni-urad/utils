@@ -13,12 +13,12 @@ module.exports = (g) => {
   
   return describe('OrgID', () => {
 
-    g.setupOrgIDs(configs)
+    g.setupOrgConfigs(configs)
 
     it('shall succeed with approp orgID', async () => {
       const res = await r.get('/domainsensitive').set('Host', 'pokus.cz')
       res.status.should.equal(200)
-      res.text.should.equal('11')
+      res.body.domains[0].should.equal('pokus.cz')
     })
 
     it('shall fail with 404', async () => {

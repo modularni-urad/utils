@@ -11,7 +11,7 @@ process.env.SESSION_COOKIE_NAME = 'Bearer'
 
 export function init() {
   const auth = require('../../auth').default
-  const OrgIDMan = require('../../orgid')
+  const OrgConfig = require('../../config')
 
   const g = {
     app: express(),
@@ -19,7 +19,7 @@ export function init() {
     sessionBasket: []
   }
   g.sessionServiceMock = sessionServiceMockInitializer(5000, g)
-  g.setupOrgIDs = OrgIDMan.setup
+  g.setupOrgConfigs = OrgConfig.setup
   
   g.app.get('/require', auth.session, auth.required, (req, res, next) => {
     res.json(req.user)
@@ -31,8 +31,8 @@ export function init() {
   g.app.get('/error', (req, res, next) => {
     throw new Error('ouch')
   })
-  g.app.get('/domainsensitive', OrgIDMan.loadOrgID, (req, res, next) => {
-    res.send(req.orgid)
+  g.app.get('/domainsensitive', OrgConfig.loadOrgConfig, (req, res, next) => {
+    res.json(req.orgconfig)
   })
   
   g.app.use('/login', loginMockRoute(g.mockUser))

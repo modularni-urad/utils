@@ -5,7 +5,7 @@ const chai = require('chai')
 chai.should()
 // import _ from 'underscore'
 
-import Config from '../config'
+import ConfigLoader from '../configloader'
 const CONFIGFOLDER = path.join(__dirname, 'test_configs')
 
 module.exports = (g) => {
@@ -28,7 +28,7 @@ cors:
 `
 
     before(done => {
-      Emiter = Config(CONFIGFOLDER)
+      Emiter = ConfigLoader(CONFIGFOLDER)
       Emiter.once('loaded', configs => {
         configs[1].domains.length.should.eql(1)
         configs[1].domains[0].should.eql('api.domain1.cz')
