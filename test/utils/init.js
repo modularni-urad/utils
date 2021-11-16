@@ -20,23 +20,24 @@ export function init() {
   }
   g.sessionServiceMock = sessionServiceMockInitializer(5000, g)
   g.setupOrgConfigs = OrgConfig.setup
-  
+
   g.app.get('/require', auth.session, auth.required, (req, res, next) => {
     res.json(req.user)
   })
-  g.app.get('/requireMembership', auth.session, auth.requireMembership('admins'), 
-      (req, res, next) => {
-    res.json(req.user)
-  })
+  g.app.get('/requireMembership', auth.session, auth.requireMembership('admins'),
+    (req, res, next) => {
+      res.json(req.user)
+    })
   g.app.get('/error', (req, res, next) => {
     throw new Error('ouch')
   })
-  g.app.get('/domainsensitive', OrgConfig.loadOrgConfig, (req, res, next) => {
+  const loadOrgConfig = OrgConfig.createloadOrgConfig(req => req.hostname)
+  g.app.get('/domainsensitive', loadOrgConfig, (req, res, next) => {
     res.json(req.orgconfig)
   })
-  
+
   g.app.use('/login', loginMockRoute(g.mockUser))
-  
+
   initErrorHandlers(g.app)
 
   return g
