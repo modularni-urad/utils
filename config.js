@@ -1,7 +1,7 @@
 import { APIError } from './errors'
 
-function getOrgConfig (req) {
-  const orgid = MAPPING[req.hostname]
+function getOrgConfig (req, getDomainFn) {
+  const orgid = MAPPING[getDomainFn(req)]
   req.orgconfig = ORG_CONFIGS[orgid]
   return orgid !== undefined
 }
@@ -22,8 +22,10 @@ export function setup (configs) {
 let MAPPING = {}
 let ORG_CONFIGS = null
 
-export function loadOrgConfig (req, res, next) {
-  return getOrgConfig(req) 
-    ? next() 
-    : next(new APIError(404, 'orgid not set for this domain'))
+export function createloadOrgConfig (getDomainFn) {
+  return function loadOrgConfig (req, res, next) {
+    return getOrgConfig(req, getDomainFn) 
+      ? next() 
+      : next(new APIError(404, 'orgid not set for this domain'))
+  }
 }

@@ -3,7 +3,7 @@ import initErrorHandlers from './error_handlers'
 import { APIError } from './errors'
 import auth from './auth'
 import GetConfigWatcher from './configloader'
-import { setup as setupOrgID, loadOrgID as loadOrgConfig } from './config'
+import { setup as setupOrgID, createloadOrgConfig } from './config'
 import { setup as setupCORS, configCallback as CORSconfigCallback } from './cors'
 
 async function initConfigManager (configFolder) {
@@ -28,6 +28,6 @@ export {
   APIError,
   GetConfigWatcher,
   setupCORS, CORSconfigCallback,
-  setupOrgID, loadOrgConfig,
+  setupOrgID, createloadOrgConfig,
   initConfigManager
 }
