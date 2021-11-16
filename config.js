@@ -22,7 +22,7 @@ export function setup (configs) {
 let MAPPING = {}
 let ORG_CONFIGS = null
 
-export function createloadOrgConfig (getDomainFn) {
+export function createLoadOrgConfigMW (getDomainFn) {
   return function loadOrgConfig (req, res, next) {
     return getOrgConfig(req, getDomainFn) 
       ? next() 

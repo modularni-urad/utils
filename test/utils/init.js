@@ -31,7 +31,7 @@ export function init() {
   g.app.get('/error', (req, res, next) => {
     throw new Error('ouch')
   })
-  const loadOrgConfig = OrgConfig.createloadOrgConfig(req => req.hostname)
+  const loadOrgConfig = OrgConfig.createLoadOrgConfigMW(req => req.hostname)
   g.app.get('/domainsensitive', loadOrgConfig, (req, res, next) => {
     res.json(req.orgconfig)
   })
