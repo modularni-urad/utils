@@ -16,12 +16,12 @@ export default function doWatch(CONFIG_FOLDER) {
   const ee = new EventEmitter()
 
   const watcher = chokidar.watch(CONFIG_FOLDER)
-  const r = /(?<orgid>[0-9]*).yaml$/
+  const r = /(?<orgid>[0-9a-z_.-]*).yaml$/
 
   async function _load (filepath) {
     const src = await fs.promises.readFile(filepath, 'utf8')
     const config = yaml.parse(src)
-    const key = Number(path.basename(filepath).match(r).groups.orgid)
+    const key = path.basename(filepath).match(r).groups.orgid
     config.orgid = key
     configs[key] = Object.freeze(config)
     return key
