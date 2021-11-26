@@ -1,20 +1,14 @@
 
 export function setup (configs) {
-  const allowed = []
-  for (let orgid in configs) {
-    configs[orgid].cors.map(d => {
-      allowed.push(d)
-    })
-  }
-  console.log(`CORS setup: ${JSON.stringify(allowed)}`)
-  ALLOWED = allowed
+  CONFIGS = configs
 }
 
-let ALLOWED = []    // array of allowed origins
+let CONFIGS = []
 
 // taken from https://github.com/expressjs/cors#configuring-cors-asynchronously
 export function configCallback (req, callback) {
-  const found = ALLOWED.indexOf(req.header('Origin')) !== -1
+  const ALLOWED = CONFIGS[req.params.tenantid]
+  const origin = (ALLOWED && ALLOWED.cors !== undefined) ? ALLOWED.cors : false
   // callback expects two parameters: error and options
-  callback(null, { origin: found })
+  callback(null, { origin })
 }
