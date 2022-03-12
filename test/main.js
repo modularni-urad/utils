@@ -23,7 +23,7 @@ describe('app', () => {
       './auth_tests',
       './config_loader_tests',
       './errors_tests',
-      './orgconfig_tests'
+      // './orgconfig_tests'
     ]
     submodules.map((i) => {
       const subMod = require(i)
