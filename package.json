@@ -10,7 +10,7 @@
     "testdbg": "mocha -r esm --inspect --exit './test/main.js'"
   },
   "peerDependencies": {
-    "axios": "^0.21.4"
+    "axios": "~0.24.0"
   },
   "engines": {
     "node": ">=12"
