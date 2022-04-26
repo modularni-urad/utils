@@ -26,7 +26,7 @@ export function isMember (req, gid) {
 
 export const requireMembership = (gid) => (req, res, next) => {
   const amIMember = isMember(req, gid)
-  return amIMember ? next() : next(new APIError(401, 'insufficient priviledges'))
+  return amIMember ? next() : next(new APIError(403, 'insufficient priviledges'))
 }
 
 export function getUID (req) {

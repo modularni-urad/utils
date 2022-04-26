@@ -30,7 +30,7 @@ module.exports = (g) => {
       g.mockUser = { id: 1, name: 'gandalf', groups: ['users'] }
       const res = await r.get('/requireMembership')
         .set('Cookie', `${process.env.SESSION_COOKIE_NAME}=cookieValue`)
-      res.status.should.equal(401)
+      res.status.should.equal(403)
     })
 
     it('shall return logged user with reqired group', async () => {
