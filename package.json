@@ -1,6 +1,6 @@
 {
   "name": "modularni-urad-utils",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "utils for modularni-urad",
   "author": "Vaclav Klecanda <vencax77@gmail.com> (http://vxk.cz)",
   "license": "MIT",
@@ -30,7 +30,9 @@
     "yaml": "^1.10.2"
   },
   "dependencies": {
+    "celebrate": "^15.0.1",
     "knex": "^0.95.14",
+    "knex-filter-loopback": "^0.3.0",
     "winston": "^3.6.0"
   }
 }

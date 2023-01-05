@@ -9,3 +9,15 @@ export class APIError extends Error {
     this.message = message
   }
 }
+
+export class NotAllowedError extends APIError {
+  constructor () {
+    super(403, 'inssuficient privilidges')
+  }
+}
+
+export class NotFoundError extends APIError {
+  constructor () {
+    super(404, 'item not found')
+  }
+}
